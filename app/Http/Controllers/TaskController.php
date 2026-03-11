@@ -24,15 +24,14 @@ class TaskController extends Controller
     {
         $task = Task::create([
             'title' => $request->title,
-            'description' => $request->description,
-            'status' => $request->status,
+            'description' => $request->description ?? null,
+            'status' => $request->status ?? 'new',
         ]);
 
         return response()->json([
             'data'    => new TaskResource($task),
             'message' => 'Задача успешно создана.',
         ], 201);
-
     }
 
     /**
