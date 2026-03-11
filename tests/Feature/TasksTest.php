@@ -2,6 +2,7 @@
 
 use App\Models\Task;
 use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\postJson;
 
 it('should create a task', function () {
@@ -87,4 +88,14 @@ it('should update task without title', function () {
         'description' => 'Only description',
         'status' => $task->status,
     ]);
+});
+
+it('should delete task', function () {
+    $task = Task::factory()->create();
+
+    $this->deleteJson(route('tasks.destroy', $task))
+         ->assertOk()
+        ->assertJsonPath('message', 'Задача успешно удалена.');
+
+        assertDatabaseMissing('tasks', ['id' => $task->id]);
 });
