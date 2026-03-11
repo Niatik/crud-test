@@ -99,3 +99,11 @@ it('should delete task', function () {
 
         assertDatabaseMissing('tasks', ['id' => $task->id]);
 });
+
+it('should get task list', function () {
+    Task::factory()->count(10)->create();
+
+    $this->getJson(route('tasks.index'))
+        ->assertOk()
+        ->assertJsonCount(10, 'data');
+});
