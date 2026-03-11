@@ -44,13 +44,13 @@ it('should create task with required fields', function () {
 });
 
 it('should not create task without title', function () {
-    $this->postJson('/api/tasks', ['description' => 'Без названия'])
+    $this->postJson( route('tasks.store'), ['description' => 'Без названия'])
         ->assertUnprocessable()
         ->assertJsonValidationErrors(['title']);
 });
 
 it('should not create task with invalid status', function () {
-    $this->postJson('/api/tasks', ['title' => 'Задача', 'status' => 'invalid_status'])
+    $this->postJson( route('tasks.store'), ['title' => 'Задача', 'status' => 'invalid_status'])
         ->assertUnprocessable()
         ->assertJsonValidationErrors(['status']);
 });
